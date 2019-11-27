@@ -19,7 +19,7 @@ public class TicTacToe_Board extends JFrame{
     // }
     
     public TicTacToe_Board(){
-        super("Simple Frame");
+        super("TicTacToe");
         
         setBounds(400,400,400,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
