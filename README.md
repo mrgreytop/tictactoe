@@ -1,2 +1,0 @@
-# tictactoe
-tictactoe in java
