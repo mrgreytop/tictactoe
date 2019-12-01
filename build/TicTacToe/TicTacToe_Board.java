@@ -6,13 +6,17 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TicTacToe_Board extends JFrame{
     
     JPanel mainPane = new JPanel(new GridBagLayout());
     JPanel turnPane = new JPanel();
     JPanel gridPane = new JPanel(new GridBagLayout());
-    Map<int[], GridCell> gridButtons = new LinkedHashMap<int[], GridCell>();
+    // Map<int[], GridCell> gridButtons = new LinkedHashMap<int[], GridCell>();
+    List<GridCell> gridButtons = new ArrayList<GridCell>();
+
 
     JLabel turn;
     Color player1Color = Color.RED;
@@ -28,7 +32,7 @@ public class TicTacToe_Board extends JFrame{
 
         engine = Engine;
         
-        setBounds(400,400,400,400);
+        setBounds(800,800,800,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         Container con = this.getContentPane();
@@ -64,13 +68,11 @@ public class TicTacToe_Board extends JFrame{
                     0,0
                 );
                     
-                // String label = String.format("Position: %d,%d",i,j);
-                GridCell b = new GridCell(engine);
-                gridPane.add(b, c);
-
                 int[] pos = {i,j};
-
-                gridButtons.put(pos, b);
+                
+                GridCell b = new GridCell(engine, pos);
+                gridPane.add(b, c);
+                gridButtons.add(b);
             }
         }
         turn = new JLabel("Player 1 turn");
@@ -95,7 +97,7 @@ public class TicTacToe_Board extends JFrame{
         }
 
         
-        for(GridCell g: gridButtons.values()){
+        for(GridCell g: gridButtons){
             g.playerTurn = this.playerTurn;
         }
 
@@ -104,5 +106,15 @@ public class TicTacToe_Board extends JFrame{
     public void Tie(){
         turn.setText("It's a Tie!");
         turn.setForeground(Color.ORANGE);
+    }
+
+    public void Winner(int currentPlayer){
+        if (currentPlayer == 1) {
+            turn.setText("Player 2 wins!");
+            turn.setForeground(player2Color);
+        } else if (currentPlayer == 0) {
+            turn.setText("Player 1 wins!");
+            turn.setForeground(player1Color);
+        }
     }
 }

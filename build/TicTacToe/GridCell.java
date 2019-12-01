@@ -2,11 +2,12 @@ package TicTacToe;
 
 import java.awt.*;
 import java.awt.event.*;
+// import java.awt.image.BufferedImage;
+// import java.io.File;
+// import java.io.IOException;
+// import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
-
-import TicTacToe.TicTacToe_Engine;
-
 import java.util.Map;
 import java.util.HashMap;
 
@@ -17,21 +18,35 @@ public class GridCell extends JPanel{
     Border blueBorder = BorderFactory.createLineBorder(Color.BLUE);
     Integer playerTurn;
     Boolean canClick;
-    Map<Integer, JLabel> m;
+    Map<Integer, CanvasImage> m;
     TicTacToe_Engine engine;
+    int[] position;
+    CanvasImage nought;
+    CanvasImage cross;
 
-    JLabel nought = new JLabel("Nought");
-    JLabel cross = new JLabel("Cross");
 
-    public GridCell(TicTacToe_Engine Engine){
+    public GridCell(TicTacToe_Engine Engine, int[] Position){
         engine = Engine;
+        position = Position;
 
         setBorder(normal);
+
         playerTurn = 0;
-        m = new HashMap<Integer, JLabel>();
+
+        cross = new CanvasImage(
+                "C:/Users/tompr/OneDrive/coding/TicTacToe/tictactoe/build/TicTacToe/cross.gif"    
+        );
+        nought = new CanvasImage(
+                "C:/Users/tompr/OneDrive/coding/TicTacToe/tictactoe/build/TicTacToe/nought.gif"
+        );
+        m = new HashMap<Integer, CanvasImage>();
         m.put(0, cross);
         m.put(1, nought);
+
         this.addMouseListener(new GridMouseListener());
+
+        // BoardManager mgr = new BoardManager()
+        // this.setLayout(mgr);
     }
 
     public void NewTurn(){
@@ -40,11 +55,16 @@ public class GridCell extends JPanel{
 
     public void addSymbol(){
         setBorder(normal);
-        JLabel symbol = m.get(playerTurn);
+        CanvasImage symbol = m.get(playerTurn);
         this.add(symbol);
 
+        if(playerTurn == 0){
+            engine.player1Pos.add(position);
+        }else if (playerTurn == 1){
+            engine.player2Pos.add(position);
+        }
+        
         MouseListener[] l = getMouseListeners();
-
         this.removeMouseListener(l[0]);
         NewTurn();
     }
